@@ -14,8 +14,10 @@
     <name>exec-model-ruleunit</name>
 
     <properties>
+        <!-- encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>11</maven.compiler.release>
+        <!-- Java version compilée -->
+        <maven.compiler.release>21</maven.compiler.release>
         <drools-version>9.44.0.Final</drools-version>
         <slf4j-version>1.7.30</slf4j-version>
         <junit-version>4.13.1</junit-version>
