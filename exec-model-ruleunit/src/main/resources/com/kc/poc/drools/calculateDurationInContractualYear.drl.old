@@ -1,0 +1,16 @@
+
+package com.kc.poc.drools;
+
+unit CalulDurationDrools;
+
+rule "will execute to calcul duration contractuctal"
+when
+	/calculs[]
+then
+    result.add( );
+end
+
+query calculDuration
+    $m: /calculs[ id == "color" ]
+
+end

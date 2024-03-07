@@ -13,10 +13,13 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>drools</name>
     <description>Demo project for tests case drools</description>
+
+    <packaging>pom</packaging>
+
     <modules>
         <module>exec-model-ruleunit</module>
     </modules>
-    <packaging>pom</packaging>
+
     <properties>
         <!-- Java version -->
         <java.version>21</java.version>
@@ -26,7 +29,11 @@
         <!-- Drools -->
         <!-- last version documented is 8.44.X.Final -->
         <!-- https://docs.drools.org/8.44.0.Final/drools-docs/drools/introduction/index.html -->
-		<drools.version>9.44.0.Final</drools.version>
+        <drools.version>9.44.0.Final</drools.version>
+        <!-- Utils -->
+        <lombok.version>1.18.30</lombok.version>
+        <start-class>com.kc.poc.drools.DroolsApplication</start-class>
+
     </properties>
     <dependencies>
         <dependency>
@@ -43,7 +50,7 @@
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>drools-core</artifactId>
-			<version>${drools.version}</version>
+            <version>${drools.version}</version>
         </dependency>
         <dependency>
             <groupId>org.drools</groupId>
@@ -66,6 +73,13 @@
             <version>${drools.version}</version>
         </dependency>
 
+        <!-- utils -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -73,8 +87,25 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${start-class}</mainClass>
+                    <!--
+                    Enable the line below to have remote debugging of your application on port 5005
+                    <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
+                    -->
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.kie</groupId>
+                <artifactId>kie-maven-plugin</artifactId>
+                <version>${drools.version}</version>
+                <extensions>true</extensions>
             </plugin>
         </plugins>
+
+
     </build>
 
 </project>
