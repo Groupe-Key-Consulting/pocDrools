@@ -6,7 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class CalculateDurationContractualYearTest {
 
@@ -15,30 +19,31 @@ public class CalculateDurationContractualYearTest {
     @Test
     void should_calcul_duration() {
         //given
-        CalculDurationDrools calcul = new CalculDurationDrools();
-        LOG.info("Creating CalculDurationDrools");
+        TestUnit testUnit= new TestUnit();
+        LOG.info("Creating TestUnit");
 
-        LocalDate now = LocalDate.now();
+        TestDrools test = new TestDrools();
         Vehicule vehicule = new Vehicule();
-        vehicule.setDateDebut(now.minusYears(1));
-        vehicule.setDateFin(now);
+        vehicule.setContractualNetValueStartYear(BigDecimal.valueOf(1));
+        vehicule.setGrantType(Vehicule.GrantType.STIF);
+        test.setVehicule(vehicule);
 
-        ContractualYear contractualYear = new ContractualYear();
-        contractualYear.setDateDebut(now.minusYears(2));
-        contractualYear.setDateFin(now);
-
-        CalculateDurationInContractualYear calculateDurationContractualYear = new CalculateDurationInContractualYear();
-        calculateDurationContractualYear.setContractualYear(contractualYear);
-        calculateDurationContractualYear.setVehicule(vehicule);
         
 
-        RuleUnitInstance<CalculDurationDrools> instance = RuleUnitProvider.get().createRuleUnitInstance(calcul);
+        RuleUnitInstance<TestUnit> instance = RuleUnitProvider.get().createRuleUnitInstance(testUnit);
 
         try {
             LOG.info("Insert data");
-            calcul.getCalculs().add(calculateDurationContractualYear);
+            testUnit.getTests().add(test);
             LOG.info("Run query. Rules are also fired");
-            instance.fire();
+            List<TestDrools> queryResult = instance.executeQuery("calculAmortissement").toList("$m");
+            List<BigDecimal> result = instance.ruleUnitData().getResult();
+            assertThat(queryResult).isNotEmpty();
+            assertThat(queryResult.getFirst().getGrantAmortizationRemainsStartYear()).isEqualTo(BigDecimal.valueOf(20));
+            assertThat(result).isNotEmpty();
+
+
+
         } finally {
             instance.close();
         }

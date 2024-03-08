@@ -3,27 +3,29 @@ package com.kc.poc.drools;
 import org.drools.ruleunits.api.DataSource;
 import org.drools.ruleunits.api.DataStore;
 import org.drools.ruleunits.api.RuleUnitData;
-import org.drools.ruleunits.api.SingletonStore;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestUnit implements RuleUnitData {
 
-    private final DataStore<Test> tests;
-    private final SingletonStore<String> result;
+    private final DataStore<TestDrools> tests;
+    private List<BigDecimal> result = new ArrayList<>();
 
     public TestUnit() {
-        this(DataSource.createStore(), DataSource.createSingleton());
+        this(DataSource.createStore());
     }
 
-    public TestUnit(DataStore<Test> tests, SingletonStore<String> result) {
+    public TestUnit(DataStore<TestDrools> tests) {
         this.tests = tests;
-        this.result = result;
     }
 
-    public DataStore<Test> getTests() {
+    public DataStore<TestDrools> getTests() {
         return tests;
     }
 
-    public SingletonStore<String> getResult() {
+    public List<BigDecimal> getResult() {
         return result;
     }
 }

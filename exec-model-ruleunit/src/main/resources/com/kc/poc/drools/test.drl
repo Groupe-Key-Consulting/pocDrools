@@ -1,12 +1,37 @@
 package com.kc.poc.drools;
 unit TestUnit;
 
+//import function com.kc.poc.drools.util.MathUtil
+import com.kc.poc.drools.util.MathUtil;
 
-rule "calcul test"
+
+
+/*rule "calcul test"
     when
-         $calc: /tests[vehicule.dateDebut < ]
+         $conditions: /tests[ vehicule.dateDebut < contractualYear.dateFin && vehicule.dateFin > contractualYear.dateDebut]
+         $calcul: if($condition)
+                then MathUtil.divide( )
+                 end
+       */
 
-    then
+rule "calculateGrantAmortizationRemainsStartYear"
+    when
+        $condition : /tests[ vehicule.GrantType != null && vehicule.getGrantPercentage(vehicule.grantType) != null]
+        then
+        result.add($condition.getVehicule().getContractualNetValueStartYear()
+        .multiply($condition.getVehicule().getGrantPercentage($condition.getVehicule().getGrantType())));
+        $condition.setGrantAmortizationRemainsStartYear($condition.getVehicule().getContractualNetValueStartYear()
+                                                                .multiply($condition.getVehicule().getGrantPercentage($condition.getVehicule().getGrantType())));
+        end
+query calculAmortissement
+    $m: /tests[ vehicule.GrantType != null && vehicule.getGrantPercentage(vehicule.grantType) != null]
+    end
 
-    then
-end
+
+
+
+
+
+
+
+
