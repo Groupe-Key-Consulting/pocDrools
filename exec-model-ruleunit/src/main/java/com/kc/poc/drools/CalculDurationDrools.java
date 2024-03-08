@@ -14,7 +14,7 @@ public class CalculDurationDrools implements RuleUnitData {
 
     private final DataStore<CalculateDurationInContractualYear> calculs;
 
-    private final List<BigDecimal> result = new ArrayList<>();
+    private final List<String> result = new ArrayList<>();
 
 
     public CalculDurationDrools() {
@@ -22,15 +22,15 @@ public class CalculDurationDrools implements RuleUnitData {
     }
 
 
-    public CalculDurationDrools(DataStore<CalculateDurationInContractualYear> calcul) {
-        this.calculs = calcul;
+    public CalculDurationDrools(DataStore<CalculateDurationInContractualYear> calculs) {
+        this.calculs = calculs;
     }
 
     public DataStore<CalculateDurationInContractualYear> getCalculs() {
         return calculs;
     }
 
-    public List<BigDecimal> getResult() {
+    public List<String> getResult() {
         return result;
     }
 }

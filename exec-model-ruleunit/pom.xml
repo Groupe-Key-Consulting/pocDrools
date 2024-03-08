@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>exec-model-ruleunit</artifactId>
-    <packaging>kjar</packaging>
+    <packaging>jar</packaging>
 
     <name>exec-model-ruleunit</name>
 

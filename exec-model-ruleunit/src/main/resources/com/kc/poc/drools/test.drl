@@ -1,0 +1,12 @@
+package com.kc.poc.drools;
+unit TestUnit;
+
+
+rule "calcul test"
+    when
+         $calc: /tests[vehicule.dateDebut < ]
+
+    then
+
+    then
+end

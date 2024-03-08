@@ -32,16 +32,16 @@ public class CalculateDurationContractualYearTest {
         calculateDurationContractualYear.setVehicule(vehicule);
         
 
-//        RuleUnitInstance<CalculDurationDrools> instance = RuleUnitProvider.get().createRuleUnitInstance(calcul);
-//
-//        try {
-//            LOG.info("Insert data");
-//            calcul.getCalculs().add(calculateDurationContractualYear);
-//            LOG.info("Run query. Rules are also fired");
-//            instance.fire();
-//        } finally {
-//            instance.close();
-//        }
+        RuleUnitInstance<CalculDurationDrools> instance = RuleUnitProvider.get().createRuleUnitInstance(calcul);
+
+        try {
+            LOG.info("Insert data");
+            calcul.getCalculs().add(calculateDurationContractualYear);
+            LOG.info("Run query. Rules are also fired");
+            instance.fire();
+        } finally {
+            instance.close();
+        }
 
 
     }

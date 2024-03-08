@@ -3,14 +3,14 @@ package com.kc.poc.drools;
 
 unit CalulDurationDrools;
 
+import com.kc.poc.drools.*;
+
 rule "will execute to calcul duration contractuctal"
 when
-	/calculs[]
+	$t: /calculs[]
 then
-    result.add( );
-end
 
-query calculDuration
-    $m: /calculs[ id == "color" ]
 
 end
+
+
