@@ -27,13 +27,20 @@
         <!-- Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Spring Boot -->
+        <spring-boot.version>3.2.3</spring-boot.version>
         <!-- Drools -->
         <!-- last version documented is 8.44.X.Final -->
         <!-- https://docs.drools.org/8.44.0.Final/drools-docs/drools/introduction/index.html -->
         <drools.version>9.44.0.Final</drools.version>
+        <slf4j-version>1.7.30</slf4j-version>
+        <junit-version>4.13.1</junit-version>
+        <logback-version>1.4.14</logback-version>
         <!-- Utils -->
         <lombok.version>1.18.30</lombok.version>
         <start-class>com.kc.poc.drools.DroolsApplication</start-class>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
 
     </properties>
     <dependencies>
@@ -70,9 +77,21 @@
         </dependency>
         <dependency>
             <groupId>org.drools</groupId>
+            <artifactId>drools-engine</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
             <artifactId>drools-ruleunits-engine</artifactId>
             <version>${drools.version}</version>
         </dependency>
+        <dependency> <!-- when not using Rule Unit and using `kmodule.xml` for defining a rule base -->
+            <groupId>org.drools</groupId>
+            <artifactId>drools-xml-support</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+        <!-- spring drools -->
+        https://mvnrepository.com/artifact/org.kie/kie-spring/7.74.1.Final
 
         <!-- https://mvnrepository.com/artifact/org.kie/kie-spring -->
         <dependency>
@@ -86,6 +105,18 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -111,7 +142,56 @@
                 <version>${drools.version}</version>
                 <extensions>true</extensions>
             </plugin>
-        </plugins>
+
+            <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>${spring-boot.version}</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                    <configuration>
+                        <classifier>exec</classifier>
+                    </configuration>
+                </execution>
+            </executions>
+            <configuration>
+                <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                </excludes>
+            </configuration>
+        </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+    </plugins>
 
 
     </build>
