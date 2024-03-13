@@ -1,0 +1,55 @@
+package com.kc.poc.drools;
+import com.kc.poc.drools.model.Participant;
+global com.kc.poc.drools.model.Taux taux
+
+dialect "java"
+
+rule "Checking Existing Debt Against Loan Amount"
+ when
+  Participant(getMontantDuPret > (2 * dettes))
+ then
+  taux.setEtatDuPret("Rejected - Too Much Debt");
+  taux.setTauxDePret(999);
+end
+
+rule "Checking Annual Salary is greater than 50000"
+ when
+  Participant(salaireAnnuel <= 50000)
+ then
+  taux.setEtatDuPret("Rejected - Too low salary");
+  taux.setTauxDePret(999);
+end
+
+rule "Checking Credit Score less than 550"
+ when
+  Participant(creditScore < 550 , salaireAnnuel > 50000,  getMontantDuPret < (2 * dettes))
+ then
+  taux.setEtatDuPret("Rejected");
+  taux.setTauxDePret(999);
+end
+
+rule "Checking Credit Score less than 650"
+ when
+  Participant((creditScore < 650 && creditScore >= 550), salaireAnnuel > 50000,  getMontantDuPret < (2 * dettes))
+ then
+  taux.setEtatDuPret("Approved");
+  taux.setTauxDePret(7.25);
+end
+
+rule "Checking Credit Score less than 750"
+ when
+  Participant((creditScore < 750 && creditScore >= 650), salaireAnnuel > 50000,  getMontantDuPret < (2 * dettes))
+ then
+  taux.setEtatDuPret("Approved");
+  taux.setTauxDePret(6.25);
+end
+
+rule "Checking Credit Score greater than 750"
+ when
+  Participant(creditScore >= 750, salaireAnnuel > 50000,  getMontantDuPret < (2 * dettes))
+ then
+  taux.setEtatDuPret("Approved");
+  taux.setTauxDePret(5.25);
+end
+
+

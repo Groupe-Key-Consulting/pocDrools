@@ -5,15 +5,6 @@ unit TestUnit;
 import com.kc.poc.drools.util.MathUtil;
 
 
-
-/*rule "calcul test"
-    when
-         $conditions: /tests[ vehicule.dateDebut < contractualYear.dateFin && vehicule.dateFin > contractualYear.dateDebut]
-         $calcul: if($condition)
-                then MathUtil.divide( )
-                 end
-       */
-
 rule "calculateGrantAmortizationRemainsStartYear"
     when
         $condition : /tests[ vehicule.GrantType != null && vehicule.getGrantPercentage(vehicule.grantType) != null]
