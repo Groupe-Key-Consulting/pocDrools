@@ -93,11 +93,11 @@
         <!-- spring drools -->
 
         <!-- https://mvnrepository.com/artifact/org.kie/kie-spring -->
-        <dependency>
-            <groupId>org.kie</groupId>
-            <artifactId>kie-spring</artifactId>
-            <version>7.74.1.Final</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.kie</groupId>-->
+<!--            <artifactId>kie-spring</artifactId>-->
+<!--            <version>7.74.1.Final</version>-->
+<!--        </dependency>-->
 
         <!-- utils -->
         <dependency>
@@ -158,6 +158,10 @@
                 </configuration>
             </plugin>
 
+<!-- The KIE plugin for Maven ensures that artifact resources are validated and pre-compiled,
+it is recommended that this is used at all times.
+To use the plugin simply add it to the build section of the Maven pom.xml
+and activate it by using packaging kjar. -->
 
             <plugin>
                 <groupId>org.kie</groupId>

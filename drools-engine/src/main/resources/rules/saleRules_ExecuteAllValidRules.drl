@@ -2,9 +2,8 @@ import com.kc.poc.drools.fact.Order;
 
 import com.kc.poc.drools.fact.Customer;
 
-// Agenda group for silver
-rule "Customer promoted to silver when makes an order over 200 agenda"
-agenda-group "upgrade to silver"
+// BRONZE => SILVER
+rule "Customer promoted to silver when makes an order over 200"
     when
         $customer : Customer( category == "Bronze")
         orderInstance : Order( customer == $customer , amount >= 300)
@@ -15,20 +14,18 @@ agenda-group "upgrade to silver"
         }
 end
 
-rule "Customer will receive an email when become silver customer agenda"
-agenda-group "upgrade to silver"
+rule "Customer will receive an email when become silver customer"
     when
         $customer : Customer( category == "Silver")
     then
         System.out.println("EMAIL: Congratulations " + $customer.getName() + ", you are now a silver customer");
 end
 
-// Agenda group for gold
-rule "Customer promoted to gold when makes an order over 500 agenda"
-agenda-group "upgrade to gold"
+// SILVER => GOLD
+rule "Customer promoted to gold when makes an order over 500 and already silver"
     when
-        $customer : Customer( category == "Bronze")
-        Order( customer == $customer , amount >= 500)
+        $customer : Customer( category == "Silver")
+        Order( "Silver" == $customer.getCategory() , amount >= 500)
     then
         System.out.println("Thank you " + $customer.getName() +  " (before:" + $customer.getCategory() + "), you've made an order over 500, you are now a GOLD customer");
         modify($customer) {
@@ -36,10 +33,13 @@ agenda-group "upgrade to gold"
         }
 end
 
-rule "Customer will receive an email when become gold customer agenda"
-agenda-group "upgrade to gold"
+rule "Customer will receive an email when become gold customer"
     when
         $customer : Customer( category == "Gold")
     then
         System.out.println("EMAIL: Congratulations " + $customer.getName() + ", you are now a gold customer");
+end
+
+query "order amount over 200"
+    $order : Order( amount >= 200 )
 end

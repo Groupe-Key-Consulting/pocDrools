@@ -4,6 +4,8 @@ import com.kc.poc.drools.fact.Customer;
 import com.kc.poc.drools.fact.Order;
 import com.kc.poc.drools.service.ECommerceService;
 import org.junit.jupiter.api.Test;
+import org.kie.api.runtime.KieContainer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,9 +15,11 @@ public class ECommerceTest {
     @Test
     public void customerPromotedToSilverAndGetNotified_WhenPurchase200AmountOrder() {
         // Given
+        Config config = new Config();
+        KieContainer kieContainer = config.createKieContainer();
         Order order = new Order();
         Customer customer = new Customer();
-        ECommerceService eCommerceService = new ECommerceService();
+        ECommerceService eCommerceService = new ECommerceService(kieContainer);
 
         customer.setName("John");
         customer.setCategory("Bronze");

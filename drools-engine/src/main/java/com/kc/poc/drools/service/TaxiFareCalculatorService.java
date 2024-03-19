@@ -11,11 +11,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaxiFareCalculatorService {
 
-    @Autowired
-    private KieContainer kieContainer;
-    KieSession kieSession = new DroolsConfig().kieContainer().newKieSession();
+
+    private final KieContainer kieContainer;
+
+    public TaxiFareCalculatorService(KieContainer kieContainer) {
+        this.kieContainer = kieContainer;
+    }
 
     public Long calculateFare(TaxiRide taxiRide, Fare fare) {
+        KieSession kieSession = kieContainer.getKieBase().newKieSession();
+
         try {
             kieSession.insert(taxiRide);
             kieSession.setGlobal("fare", fare);

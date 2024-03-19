@@ -3,12 +3,25 @@ package com.kc.poc.drools.service;
 import com.kc.poc.drools.config.DroolsConfig;
 import com.kc.poc.drools.model.Applicant;
 import com.kc.poc.drools.model.SuggestedRole;
+import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ApplicantService {
-    KieSession kieSession = new DroolsConfig().kieContainer().newKieSession();
+
+    @Autowired
+    @Qualifier("KieContainerCustom")
+    KieContainer kieContainer;
+
+    public ApplicantService(KieContainer kieContainer) {
+        this.kieContainer = kieContainer;
+    }
 
     public SuggestedRole suggestARoleForApplicant(Applicant applicant, SuggestedRole suggestedRole) {
+        KieSession kieSession = kieContainer.getKieBase().newKieSession();
        try {
            kieSession.insert(applicant);
            kieSession.setGlobal("suggestedRole",suggestedRole);
