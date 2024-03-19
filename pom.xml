@@ -19,6 +19,7 @@
     <modules>
         <module>exec-model-ruleunit</module>
         <module>drools-engine</module>
+        <module>geode-calculation-drools</module>
     </modules>
 
     <properties>
