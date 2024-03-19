@@ -1,0 +1,57 @@
+package com.kc.poc.drools.rules;
+
+import com.kc.poc.drools.model.Applicant;
+
+global com.kc.poc.drools.model.SuggestedRole suggestedRole;
+
+// Drools supports two dialects: Java and MVEL.
+// In this case, the MVEL dialect is being used.
+dialect "mvel"
+
+rule "Suggest CEO Role"
+    when
+        Applicant(experienceInYears > 20)
+        Applicant(currentSalary > 2500000)
+    then
+        suggestedRole.setRole("CEO");
+end
+
+rule "Suggest Menager Role"
+    when
+        Applicant(experienceInYears > 10)
+        Applicant(currentSalary > 1000000 && currentSalary < 2500000)
+    then
+        suggestedRole.setRole("Manager");
+end
+
+rule "Suggest Senior Developer Role"
+    when
+        Applicant(experienceInYears > 7)
+        Applicant(currentSalary > 500000 && currentSalary < 1000000)
+    then
+        suggestedRole.setRole("Senior Developer");
+end
+
+rule "Suggest Developer Role"
+    when
+        Applicant(experienceInYears > 3)
+        Applicant(currentSalary > 300000 && currentSalary < 500000)
+    then
+        suggestedRole.setRole("Developer");
+end
+
+rule "Suggest Junior Developer Role"
+    when
+        Applicant(experienceInYears > 1)
+        Applicant(currentSalary > 100000 && currentSalary < 300000)
+    then
+        suggestedRole.setRole("Junior Developer");
+end
+
+rule "Suggest Intern Role"
+    when
+        Applicant(experienceInYears < 1)
+        Applicant(currentSalary < 100000)
+    then
+        suggestedRole.setRole("Intern");
+end

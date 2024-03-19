@@ -18,6 +18,7 @@
 
     <modules>
         <module>exec-model-ruleunit</module>
+        <module>drools-engine</module>
     </modules>
 
     <properties>
@@ -71,6 +72,13 @@
             <groupId>org.drools</groupId>
             <artifactId>drools-ruleunits-engine</artifactId>
             <version>${drools.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.kie/kie-spring -->
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <version>7.74.1.Final</version>
         </dependency>
 
         <!-- utils -->
