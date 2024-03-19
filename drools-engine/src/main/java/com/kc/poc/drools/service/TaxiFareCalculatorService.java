@@ -1,6 +1,6 @@
 package com.kc.poc.drools.service;
 
-import com.kc.poc.drools.config.TaxiFareConfiguration;
+import com.kc.poc.drools.config.DroolsConfig;
 import com.kc.poc.drools.model.Fare;
 import com.kc.poc.drools.model.TaxiRide;
 import org.kie.api.runtime.KieContainer;
@@ -13,7 +13,7 @@ public class TaxiFareCalculatorService {
 
     @Autowired
     private KieContainer kieContainer;
-    KieSession kieSession = new TaxiFareConfiguration().kieContainer().newKieSession();
+    KieSession kieSession = new DroolsConfig().kieContainer().newKieSession();
 
     public Long calculateFare(TaxiRide taxiRide, Fare fare) {
         try {

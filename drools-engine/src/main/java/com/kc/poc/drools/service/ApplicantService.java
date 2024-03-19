@@ -6,7 +6,7 @@ import com.kc.poc.drools.model.SuggestedRole;
 import org.kie.api.runtime.KieSession;
 
 public class ApplicantService {
-    KieSession kieSession = new DroolsConfig().getKieSession();
+    KieSession kieSession = new DroolsConfig().kieContainer().newKieSession();
 
     public SuggestedRole suggestARoleForApplicant(Applicant applicant, SuggestedRole suggestedRole) {
        try {

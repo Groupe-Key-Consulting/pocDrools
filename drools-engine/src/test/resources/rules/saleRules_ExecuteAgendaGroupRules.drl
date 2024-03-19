@@ -1,0 +1,45 @@
+import com.kc.poc.drools.fact.Order;
+
+import com.kc.poc.drools.fact.Customer;
+
+// Agenda group for silver
+rule "Customer promoted to silver when makes an order over 200"
+agenda-group "upgrade to silver"
+    when
+        $customer : Customer( category == "Bronze")
+        orderInstance : Order( customer == $customer , amount >= 300)
+    then
+        System.out.println("Thank you " + $customer.getName() +  " (before:" + $customer.getCategory() + "), you've made an order over 200, you are now a SILVER customer");
+        modify($customer) {
+            setCategory("Silver")
+        }
+end
+
+rule "Customer will receive an email when become silver customer"
+agenda-group "upgrade to silver"
+    when
+        $customer : Customer( category == "Silver")
+    then
+        System.out.println("EMAIL: Congratulations " + $customer.getName() + ", you are now a silver customer");
+end
+
+// Agenda group for gold
+rule "Customer promoted to gold when makes an order over 500"
+agenda-group "upgrade to gold"
+    when
+        $customer : Customer( category == "Bronze")
+        Order( customer == $customer , amount >= 500)
+    then
+        System.out.println("Thank you " + $customer.getName() +  " (before:" + $customer.getCategory() + "), you've made an order over 500, you are now a GOLD customer");
+        modify($customer) {
+            setCategory("Gold")
+        }
+end
+
+rule "Customer will receive an email when become gold customer"
+agenda-group "upgrade to gold"
+    when
+        $customer : Customer( category == "Gold")
+    then
+        System.out.println("EMAIL: Congratulations " + $customer.getName() + ", you are now a gold customer");
+end

@@ -1,3 +1,5 @@
+package com.kc.poc.drools;
+
 import com.kc.poc.drools.model.Fare;
 import com.kc.poc.drools.model.TaxiRide;
 import com.kc.poc.drools.service.TaxiFareCalculatorService;

@@ -1,0 +1,28 @@
+import com.kc.poc.drools.fact.Order;
+import com.kc.poc.drools.fact.Customer;
+
+//global com.kc.poc.drools.fact.Customer customer;
+
+//dialect "mvel"
+
+//declare
+
+rule "Customer promoted to silver when makes an order over 200"
+    when
+        $customer : Customer()
+        $order : Order( customer = $customer , amount >= 200)
+    then
+        System.out.println("Thank you , you've made an order over 200, you are now a silver customer");
+//        modify(customer) {
+//            customer.setCategory("silver")
+//        }
+        $customer.setCategory("Silver");
+end
+
+//rule "Customer will receive an email when become silver customer"
+//    when
+//        $customer : Customer( category == "silver")
+////        /customer[ customer.getCategory() == "silver"]
+//    then
+//        System.out.println("Congratulations " + $customer.getName() + ", you are now a silver customer");
+//end

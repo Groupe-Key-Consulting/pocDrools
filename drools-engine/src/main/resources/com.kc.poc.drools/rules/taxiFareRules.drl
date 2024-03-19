@@ -1,0 +1,32 @@
+import com.kc.poc.drools.model.TaxiRide
+
+global com.kc.poc.drools.model.Fare fare;
+
+dialect "mvel"
+
+rule "Calculate Taxi Fare - Scenario 1"
+    when
+        taxiRideInstance:TaxiRide(isNightSurcharge == false && distanceInMile < 10)
+    then
+        fare.setRideFare(70L);
+        fare.setNightSurcharge(0L);
+        fare.setTotalFare(fare.getRideFare() + fare.getNightSurcharge());
+end
+
+rule "Calculate Taxi Fare - Scenario 2"
+    when
+        taxiRideInstance:TaxiRide(isNightSurcharge == true && distanceInMile > 10 && distanceInMile < 20)
+    then
+        fare.setRideFare(90L);
+        fare.setNightSurcharge(15L);
+        fare.setTotalFare(fare.getRideFare() + fare.getNightSurcharge());
+end
+
+rule "Calculate Taxi Fare - Scenario 3"
+    when
+        taxiRideInstance:TaxiRide(isNightSurcharge == false && distanceInMile > 20 && distanceInMile < 40)
+    then
+        fare.setRideFare(120L);
+        fare.setNightSurcharge(0L);
+        fare.setTotalFare(fare.getRideFare() + fare.getNightSurcharge());
+end
