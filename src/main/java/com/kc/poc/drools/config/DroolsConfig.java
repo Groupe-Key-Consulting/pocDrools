@@ -66,8 +66,7 @@ public class DroolsConfig {
 
         KieFileSystem kfs = kieServices.newKieFileSystem();
         //Adding a DRL file to a KieFileSystem
-        InputStream resourceStream = getClass().getClassLoader().getResourceAsStream("/rules/regles_prets.drl");
-        kfs.write(ResourceFactory.newInputStreamResource(resourceStream));
+        kfs.write(ResourceFactory.newClassPathResource("rules/regles_prets.drl"));
 
         kfs.writeKModuleXML(kieModuleModel.toXML());
         //Adding Kie artifacts to a KieFileSystem
