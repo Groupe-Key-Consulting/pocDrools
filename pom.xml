@@ -91,7 +91,6 @@
             <version>${drools.version}</version>
         </dependency>
         <!-- spring drools -->
-        https://mvnrepository.com/artifact/org.kie/kie-spring/7.74.1.Final
 
         <!-- https://mvnrepository.com/artifact/org.kie/kie-spring -->
         <dependency>
