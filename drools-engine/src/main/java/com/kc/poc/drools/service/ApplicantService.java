@@ -1,6 +1,5 @@
 package com.kc.poc.drools.service;
 
-import com.kc.poc.drools.config.DroolsConfig;
 import com.kc.poc.drools.model.Applicant;
 import com.kc.poc.drools.model.SuggestedRole;
 import org.kie.api.runtime.KieContainer;

@@ -11,12 +11,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.kc.poc.drools.strategies")
+@ComponentScan("com.kc.poc.drools")
 public class DroolsConfig {
 
-    private static final String RULES_FILE = "rules/saleRules_ExecuteAgendaGroupRules.drl";
-//    private static final String RULES_FILE = "rules/saleRules_ExecuteAllValidRules.drl";
-//    private static final String RULES_FILE = "rules/saleRules_ExecuteFirstValidRule.drl";
+    private static final String RULES_FILE = "rules/calculateAmortizationDuration.drl";
 
     @Bean
     public KieContainer kieContainer() {

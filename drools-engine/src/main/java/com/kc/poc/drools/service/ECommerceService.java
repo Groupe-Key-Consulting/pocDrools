@@ -1,17 +1,12 @@
 package com.kc.poc.drools.service;
 
-import com.kc.poc.drools.config.DroolsConfig;
 import com.kc.poc.drools.fact.Customer;
 import com.kc.poc.drools.fact.Order;
-import lombok.AllArgsConstructor;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.Agenda;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import static java.lang.Thread.sleep;
 
 @Service
 public class ECommerceService {

@@ -21,7 +21,7 @@
 ## Rules atributtes
 
 - **no-loop**: éviter la réactivation d'une règle causée par le 'then' de cette MÊME règle.
-- **lock-on-active**: éviter la réactivation d'une règle, QUELLE qu'en soit la cause.
+- **lock-on-active**: éviter la réactivation d'une règle, quelle qu'en soit la cause.
 - **salience**: priorité de la règle. Plus la valeur est élevée, plus la règle est prioritaire.
 - **agenda-group**: permet de regrouper les règles dans des groupes et de les executer en fonction du groupe.
   - Utilisation de setFocus() requis pour selectionner le groupe à executer.

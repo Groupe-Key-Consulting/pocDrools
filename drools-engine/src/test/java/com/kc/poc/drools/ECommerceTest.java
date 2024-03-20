@@ -5,7 +5,6 @@ import com.kc.poc.drools.fact.Order;
 import com.kc.poc.drools.service.ECommerceService;
 import org.junit.jupiter.api.Test;
 import org.kie.api.runtime.KieContainer;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

@@ -1,11 +1,9 @@
 package com.kc.poc.drools.service;
 
-import com.kc.poc.drools.config.DroolsConfig;
 import com.kc.poc.drools.model.Fare;
 import com.kc.poc.drools.model.TaxiRide;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

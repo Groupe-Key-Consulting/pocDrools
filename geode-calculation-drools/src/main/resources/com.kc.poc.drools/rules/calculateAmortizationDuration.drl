@@ -1,0 +1,30 @@
+import com.kc.poc.drools.fact.Vehicle;
+import com.kc.poc.drools.util.DateUtil;
+
+rule "nouveau vehicule et periode d'amortissement > 0"
+    when
+        $vehicle : Vehicle(isNewVehicle() == true, newVehiclesAmortizationPeriod > 0)
+    then
+        modify($vehicle){
+            setAmortizationDuration(getNewVehiclesAmortizationPeriod())
+        }
+        System.out.println("Amortization duration: " + $vehicle.getAmortizationDuration() + " years");
+end
+
+rule "amortizationDuration < 0"
+    when
+        $vehicle : Vehicle( getAmortizationDuration() = 0)
+    then
+        $vehicle.setAmortizationDuration(0);
+end
+
+rule "ancien vehicule et date d'achat..."
+    when
+        $isPurchaseDateAfterStartDate: Vehicle(purchaseDate.plusMonths(oldVehiclesAmortizationPeriod * 12) > startDate )
+        $vehicle : Vehicle(getPurchaseDate() != null && getStartDate() != null && getOldVehiclesAmortizationPeriod() < 0 &&  $isPurchaseDateAfterStartDate )
+    then
+        modify($vehicle){
+            setAmortizationDuration(getOldVehiclesAmortizationPeriod() - (double)DateUtil.dateDifMonths($vehicle.getPurchaseDate(), $vehicle.getStartDate()) / 12)
+        }
+        System.out.println("Amortization duration: " + $vehicle.getAmortizationDuration() + " years");
+end
