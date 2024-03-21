@@ -15,13 +15,6 @@ rule "nouveau vehicule et periode d'amortissement > 0"
         System.out.println("Amortization duration: " + $vehicle.getAmortizationDuration() + " years");
 end
 
-rule "amortizationDuration <= 0"
-    when
-        $vehicle : Vehicle( getAmortizationDuration() <= 0)
-    then
-        $vehicle.setAmortizationDuration(0);
-        System.out.println("Amortization duration is less than " + $vehicle.getAmortizationDuration());
-end
 
 //function boolean isAfterT(Vehicle vehicleT, int oldVehiclesAmortizationPeriod, LocalDate startDate) {
 //    boolean isAfterT = vehicleT.getPurchaseDate().plusMonths(oldVehiclesAmortizationPeriod * 12).isAfter(startDate);
@@ -31,19 +24,21 @@ end
 
 rule "ancien vehicule et date d'achat plus durée d'amortissement est supérieure a la date de début du vehicule"
     when
-//        $isPurchaseDateAfterStartDate: Vehicle(purchaseDate.plusMonths(oldVehiclesAmortizationPeriod * 12) startDate )
-//        $test:eval(isAfter())
-//        $purchasedate: Vehicle(purchaseDate.plusMonths(oldVehiclesAmortizationPeriod * 12))
-//        $startDate: Vehicle(startDate)
-//        $testvalue: eval(isAfter($purchaseDate, $startDate))
-//        $vehicle: Vehicle(getPurchaseDate() != null && getStartDate() != null && getPurchaseDate() > getStartDate())
-        $vehicle: Vehicle(getPurchaseDate() != null && getStartDate() != null && oldVehiclesAmortizationPeriod < 0 &&  purchaseDate.plusMonths(getOldVehiclesAmortizationPeriod() * 12) > getStartDate())
+      $vehicle: Vehicle(getPurchaseDate() != null && getStartDate() != null && oldVehiclesAmortizationPeriod != null && purchaseDate.plusMonths(getOldVehiclesAmortizationPeriod() * 12) > getStartDate())
     then
-//        modify($vehicle){
-//            $s : 0
-//            setAmortizationDuration($s)
-////            setAmortizationDuration(getOldVehiclesAmortizationPeriod() - (double)DateUtil.dateDifMonths($vehicle.purchaseDate && $vehicle.startDate()) / 12)
-//        }
-        $vehicle.setAmortizationDuration($vehicle.getOldVehiclesAmortizationPeriod() - (double)DateUtil.dateDifMonths($vehicle.getPurchaseDate(), $vehicle.getStartDate()) / 12);
+
+        modify($vehicle){
+            setAmortizationDuration($vehicle.getOldVehiclesAmortizationPeriod() - (double)DateUtil.dateDifMonths($vehicle.getPurchaseDate(), $vehicle.getStartDate()) / 12)
+        }
+
         System.out.println("Amortization duration: " + $vehicle.getAmortizationDuration() + " years");
+
+end
+
+rule "si après les 2 règles au dessus l'amortizationDuration <= 0"
+    when
+        $vehicle : Vehicle( getAmortizationDuration() < 0)
+    then
+        $vehicle.setAmortizationDuration(0);
+        System.out.println("Amortization duration is less than " + $vehicle.getAmortizationDuration());
 end

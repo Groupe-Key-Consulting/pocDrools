@@ -16,7 +16,7 @@ public class Vehicle {
     private Boolean newVehicle;
     private LocalDate startDate;
     private int newVehiclesAmortizationPeriod = 0;
-    private int oldVehiclesAmortizationPeriod = 0;
+    private Integer oldVehiclesAmortizationPeriod = 0;
     private double amortizationDuration = 0;
 
 //    public VehicleType getType() {
