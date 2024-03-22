@@ -2,7 +2,6 @@ package com.kc.poc.drools.strategies;
 
 
 import com.kc.poc.drools.droolsConfig.DroolsConfig;
-import com.kc.poc.drools.fact.ContractualYear;
 import com.kc.poc.drools.fact.Vehicle;
 import com.kc.poc.drools.util.DateUtil;
 import com.kc.poc.drools.util.MathUtil;
@@ -16,9 +15,6 @@ import java.math.BigDecimal;
 
 @Service
 public class VehicleStrategy2021 {
-
-
-
     public BigDecimal calculateAmortizationDurationJava(Vehicle vehicle) {
         double amortizationDuration = 0;
         if (vehicle.isNewVehicle() && vehicle.getNewVehiclesAmortizationPeriod()> 0) {
@@ -38,8 +34,6 @@ public class VehicleStrategy2021 {
 
     public BigDecimal calculateAmortizationDurationDrools(Vehicle vehicle) {
         KieSession kieSession = new DroolsConfig().kieContainer().newKieSession();
-
-//        kieSession.addEventListener( new DebugAgendaEventListener() );
         kieSession.addEventListener(new DefaultAgendaEventListener() {
             public void afterMatchFired(AfterMatchFiredEvent event) {
                 super.afterMatchFired( event );
@@ -50,32 +44,13 @@ public class VehicleStrategy2021 {
                 System.out.println( event );
             }
         });
-        try {
 
+        try {
             kieSession.insert(vehicle);
             kieSession.fireAllRules();
-
         } finally {
             kieSession.dispose();
         }
-
         return MathUtil.asBigDecimal(vehicle.getAmortizationDuration());
-
-    }
-
-    public BigDecimal calculateGrantAmortizationRemainsEndYearJava(Vehicle vehicle, Vehicle.GrantType grantType, ContractualYear year, BigDecimal amortizationDuration,
-                                                                   BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
-        double grantAmortization = vehicle.calculateGrantAmortization(grantType, year, amortizationDuration, contractualNetValueStartYear).doubleValue();
-        double grantAmortizationRemainsStartYear = vehicle.calculateGrantAmortizationRemainsStartYear(grantType, year, grantAmortizationRemainsStartYearPreviousYear,
-                grantAmortizationPreviousYear, contractualNetValueStartYear).doubleValue();
-        return calculateGrantAmortizationRemainsEndYear(vehicle, grantType, year, grantAmortizationRemainsStartYear, grantAmortization);
-    }
-
-    private BigDecimal calculateGrantAmortizationRemainsEndYear(Vehicle vehicle, Vehicle.GrantType grantType, ContractualYear year, double grantAmortizationRemainsStartYear,
-                                                                double grantAmortization) {
-        BigDecimal grantAmortizationRemainsEndYear = BigDecimal.ZERO;
-        double allocationPercentage = MathUtil.asDoubleValue(vehicle.getAllocationPercentage());
-        grantAmortizationRemainsEndYear = MathUtil.asBigDecimal(grantAmortizationRemainsStartYear * allocationPercentage - grantAmortization);
-        return grantAmortizationRemainsEndYear;
     }
 }

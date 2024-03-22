@@ -20,6 +20,7 @@
         <module>exec-model-ruleunit</module>
         <module>drools-engine</module>
         <module>geode-calculation-drools</module>
+        <module>decision-table-drools-geode</module>
     </modules>
 
     <properties>
