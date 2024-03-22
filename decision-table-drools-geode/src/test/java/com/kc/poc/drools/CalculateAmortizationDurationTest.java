@@ -28,7 +28,6 @@ public class CalculateAmortizationDurationTest {
 
         // Then
         assertEquals(BigDecimal.valueOf(5.0), result);
-        System.out.println("Test #1 passed: " + result);
     }
 
     @Test
@@ -47,7 +46,6 @@ public class CalculateAmortizationDurationTest {
 
         // Then
         assertEquals(BigDecimal.valueOf(0.0), result);
-        System.out.println("Test #2 passed: " + result);
     }
 
     @Test
@@ -68,7 +66,6 @@ public class CalculateAmortizationDurationTest {
         // Then
         // 1.0833 = 2 - (13/12)
         assertEquals(BigDecimal.valueOf(1.0833), result);
-        System.out.println("Test #3 passed: " + result);
     }
 
 //    @Test
