@@ -21,11 +21,11 @@ public class VehicleStrategy2021 {
 
     public BigDecimal calculateAmortizationDurationJava(Vehicle vehicle) {
         double amortizationDuration = 0;
-        if (vehicle.isNewVehicle() && vehicle.getNewVehiclesAmortizationPeriod()> 0) {
+        if (vehicle.isNewVehicle() && vehicle.getNewVehiclesAmortizationPeriod() > 0) {
             amortizationDuration = vehicle.getNewVehiclesAmortizationPeriod();
         } else {
             if (vehicle.getPurchaseDate() != null && vehicle.getStartDate() != null && vehicle.getOldVehiclesAmortizationPeriod() < 0) {
-                if ( vehicle.getPurchaseDate().plusMonths( vehicle.getOldVehiclesAmortizationPeriod()* 12).isAfter(vehicle.getStartDate())) {
+                if (vehicle.getPurchaseDate().plusMonths(vehicle.getOldVehiclesAmortizationPeriod() * 12).isAfter(vehicle.getStartDate())) {
                     amortizationDuration = vehicle.getOldVehiclesAmortizationPeriod() - ((double) DateUtil.dateDifMonths(vehicle.getPurchaseDate(), vehicle.getStartDate()) / 12);
                 }
             }

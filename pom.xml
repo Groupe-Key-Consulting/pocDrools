@@ -20,7 +20,8 @@
         <module>exec-model-ruleunit</module>
         <module>drools-engine</module>
         <module>geode-calculation-drools</module>
-        <module>decision-table-drools-geode</module>
+<!--        <module>decision-table-drools-geode</module>-->
+        <module>jar-location</module>
     </modules>
 
     <properties>
@@ -92,14 +93,21 @@
             <artifactId>drools-xml-support</artifactId>
             <version>${drools.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.kie/kie-api -->
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-ci</artifactId>
+            <version>9.44.0.Final</version>
+        </dependency>
+
         <!-- spring drools -->
 
         <!-- https://mvnrepository.com/artifact/org.kie/kie-spring -->
-<!--        <dependency>-->
-<!--            <groupId>org.kie</groupId>-->
-<!--            <artifactId>kie-spring</artifactId>-->
-<!--            <version>7.74.1.Final</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.kie</groupId>-->
+        <!--            <artifactId>kie-spring</artifactId>-->
+        <!--            <version>7.74.1.Final</version>-->
+        <!--        </dependency>-->
 
         <!-- utils -->
         <dependency>
@@ -148,22 +156,22 @@
                 </executions>
             </plugin>
 
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>${start-class}</mainClass>
-                    <!--
-                    Enable the line below to have remote debugging of your application on port 5005
-                    <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
-                    -->
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <mainClass>${start-class}</mainClass>-->
+<!--                    &lt;!&ndash;-->
+<!--                    Enable the line below to have remote debugging of your application on port 5005-->
+<!--                    <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>-->
+<!--                    &ndash;&gt;-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
-<!-- The KIE plugin for Maven ensures that artifact resources are validated and pre-compiled,
-it is recommended that this is used at all times.
-To use the plugin simply add it to the build section of the Maven pom.xml
-and activate it by using packaging kjar. -->
+            <!-- The KIE plugin for Maven ensures that artifact resources are validated and pre-compiled,
+            it is recommended that this is used at all times.
+            To use the plugin simply add it to the build section of the Maven pom.xml
+            and activate it by using packaging kjar. -->
 
             <plugin>
                 <groupId>org.kie</groupId>
@@ -173,54 +181,59 @@ and activate it by using packaging kjar. -->
             </plugin>
 
             <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>${spring-boot.version}</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>repackage</goal>
-                    </goals>
-                    <configuration>
-                        <classifier>exec</classifier>
-                    </configuration>
-                </execution>
-            </executions>
-            <configuration>
-                <excludes>
-                    <exclude>
-                        <groupId>org.projectlombok</groupId>
-                        <artifactId>lombok</artifactId>
-                    </exclude>
-                </excludes>
-            </configuration>
-        </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
-                        <phase>validate</phase>
                         <goals>
-                            <goal>copy-resources</goal>
+                            <goal>repackage</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
+                            <classifier>exec</classifier>
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <mainClass>${start-class}</mainClass>
+                    <!--
+                    Enable the line below to have remote debugging of your application on port 5005
+                    <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
+                    -->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-resources-plugin</artifactId>-->
+<!--                <version>3.2.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>copy-resources</id>-->
+<!--                        <phase>validate</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>copy-resources</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>-->
+<!--                            <resources>-->
+<!--                                <resource>-->
+<!--                                    <directory>src/main/resources</directory>-->
+<!--                                    <filtering>true</filtering>-->
+<!--                                </resource>-->
+<!--                            </resources>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
 
-    </plugins>
+        </plugins>
 
 
     </build>
