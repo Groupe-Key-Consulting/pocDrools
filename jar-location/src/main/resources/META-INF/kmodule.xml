@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://www.drools.org/xsd/kmodule">
-    <kbase name="KBase1" default="true" eventProcessingMode="stream" equalsBehavior="equality" declarativeAgenda="enabled" includes="KBase1">
+    <kbase name="KBase1" default="true" eventProcessingMode="stream" equalsBehavior="equality" declarativeAgenda="enabled" includes="GeodeDroolsCalcKbase">
         <ksession name="KSession1" type="stateful" default="true" clockType="realtime" />
     </kbase>
 </kmodule>

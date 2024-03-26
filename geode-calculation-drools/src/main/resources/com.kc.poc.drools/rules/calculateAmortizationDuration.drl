@@ -10,9 +10,9 @@ rule "nouveau vehicule et periode d'amortissement > 0"
         $vehicle : Vehicle(isNewVehicle() && getNewVehiclesAmortizationPeriod() > 0)
     then
         modify($vehicle){
-            setAmortizationDuration($vehicle.getNewVehiclesAmortizationPeriod())
+            setAmortizationDuration(88)
         }
-        System.out.println("Amortization duration: " + $vehicle.getAmortizationDuration() + " years");
+        System.out.println("Amortization duration is : " + $vehicle.getAmortizationDuration() + " years");
 end
 
 

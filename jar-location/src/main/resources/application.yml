@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: drools
+  threads:
+    virtual:
+      enabled: true
+
+logging:
+  level:
+    root: info
+
+server:
+  port: 8080
