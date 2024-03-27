@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @Async
@@ -32,7 +31,7 @@ public class VehicleStrategy2021Two {
         return MathUtil.asBigDecimal(vehicle.getAmortizationDuration());
     }
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 8000)
     public void scanCalculateAmortizationDurationDrools() {
         LocalDate date = LocalDate.now();
         Vehicle vehicle = new Vehicle();
@@ -45,14 +44,15 @@ public class VehicleStrategy2021Two {
         KieContainer kieContainer = new DroolsConfigTwo().kieContainer();
         KieSession kieSession = kieContainer.newKieSession("GeodeDroolsCalcSession");
 
-
+        System.out.println("---- Old AmortizationDuration is: " + vehicle.getAmortizationDuration());
         try {
             kieSession.insert(vehicle);
-            int fired = kieSession.fireAllRules();
-//            System.out.println("Nombre de règles déclenchées: " + fired);
+            System.out.println("[fireAllRules]");
+            kieSession.fireAllRules();
         } finally {
             kieSession.dispose();
         }
-//        return MathUtil.asBigDecimal(vehicle.getAmortizationDuration());
+        System.out.println("---- New AmortizationDuration is: " + vehicle.getAmortizationDuration() + "\n----------------------");
+
     }
 }

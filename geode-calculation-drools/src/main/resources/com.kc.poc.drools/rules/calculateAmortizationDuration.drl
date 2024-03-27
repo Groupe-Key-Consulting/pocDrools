@@ -2,25 +2,15 @@ import com.kc.poc.drools.fact.Vehicle;
 import com.kc.poc.drools.util.DateUtil;
 import java.time.LocalDate;
 
-//function boolean isAfter(LocalDate date, LocalDate start) {
-//    return date.isAfter(start);
-//}
 rule "nouveau vehicule et periode d'amortissement > 0"
     when
         $vehicle : Vehicle(isNewVehicle() && getNewVehiclesAmortizationPeriod() > 0)
     then
         modify($vehicle){
-            setAmortizationDuration(88)
+            setAmortizationDuration($vehicle.getNewVehiclesAmortizationPeriod())
         }
         System.out.println("Amortization duration is : " + $vehicle.getAmortizationDuration() + " years");
 end
-
-
-//function boolean isAfterT(Vehicle vehicleT, int oldVehiclesAmortizationPeriod, LocalDate startDate) {
-//    boolean isAfterT = vehicleT.getPurchaseDate().plusMonths(oldVehiclesAmortizationPeriod * 12).isAfter(startDate);
-//    System.out.println("isAfterT: " + isAfterT);
-//    return isAfterT;
-//}
 
 rule "ancien vehicule et date d'achat plus durée d'amortissement est supérieure a la date de début du vehicule"
     when
