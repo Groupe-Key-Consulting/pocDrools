@@ -6,15 +6,13 @@ import com.kc.poc.drools.fact.Vehicle;
 import com.kc.poc.drools.util.MathUtil;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Service
-@Async
+//@Service
+//@Async
 public class VehicleStrategy2021Two {
 
     public BigDecimal calculateAmortizationDurationDrools(Vehicle vehicle) {
@@ -32,7 +30,7 @@ public class VehicleStrategy2021Two {
     }
 
     @Scheduled(fixedRate = 8000)
-    public void scanCalculateAmortizationDurationDrools() {
+    public void scheduledScanCalculateAmortizationDurationDrools() {
         LocalDate date = LocalDate.now();
         Vehicle vehicle = new Vehicle();
         vehicle.setNewVehicle(true);
