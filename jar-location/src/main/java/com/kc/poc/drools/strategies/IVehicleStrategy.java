@@ -1,12 +1,13 @@
 package com.kc.poc.drools.strategies;
 
 import com.kc.poc.drools.fact.Vehicle;
+import com.kc.poc.drools.service.ContractualYear;
 
 import java.math.BigDecimal;
 
 public interface IVehicleStrategy {
 
-    BigDecimal calculateAmortizationDuration(Vehicle vehicle);
+//    BigDecimal calculateAmortizationDurationJava(Vehicle vehicle);
 
 //    BigDecimal calculateContractualNetValueStartYear(Vehicle vehicle, ContractualYear year, BigDecimal contractualNetValueStartYearPreviousYear,
 //                                                     BigDecimal damPreviousYear, BigDecimal stifGrantAmortizationPreviousYear, BigDecimal otherGrantAmortizationPreviousYear);
@@ -29,8 +30,8 @@ public interface IVehicleStrategy {
 //    BigDecimal calculateGrantAmortizationRemainsStartYear(Vehicle vehicle, Vehicle.GrantType grantType, ContractualYear year,
 //                                                          BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear);
 //
-//    BigDecimal calculateGrantAmortizationRemainsEndYearJava(Vehicle vehicle, Vehicle.GrantType grantType, ContractualYear year, BigDecimal amortizationDuration,
-//                                                            BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear);
+    BigDecimal calculateGrantAmortizationRemainsEndYearJava(Vehicle vehicle, Vehicle.GrantType grantType, ContractualYear year, BigDecimal amortizationDuration,
+                                                            BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear);
 
 //    BigDecimal calculateDurationInContractualYear(Vehicle vehicle, ContractualYear year);
 //

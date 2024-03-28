@@ -73,9 +73,11 @@ public class CalculateAmortizationDurationTest {
         assertEquals(BigDecimal.valueOf(1.0833), result);
     }
 
-    /*-------------------------------------------------*/
-    /*------       CALCULATION TIME TESTS        ------*/
-    /*-------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------------*/
+    /*------------------------------       CALCULATION TIME TESTS        ------------------------------*/
+    /*-------------------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------------*/
     @Test
     public void should_get_calculation_time_of_amortization_duration_by_batch_of_million_vehicle_in_stateless_session() {
         // Given
@@ -90,12 +92,39 @@ public class CalculateAmortizationDurationTest {
                     now.minusYears(1).minusMonths(new Random().nextInt(12)),
                     oldVehicle ? 0 : new Random().nextInt(5),
                     oldVehicle ? new Random().nextInt(5) : 0,
-                    0
+                    0,
+                    null
             )));
         }
 
         // When
         long duration = new VehicleStrategy2021Service().calculationTimeOfAmortizationDurationStateless(cmd);
+
+        // Then
+        System.out.println("Calculation time of amortization duration for 1.000.000 Vehicle in Stateless Session: " + duration);
+    }
+
+    @Test
+    public void should_get_calculation_time_of_amortization_duration_by_batch_of_million_vehicle_in_multiple_stateless_session() {
+        // Given
+        List<Command> cmd = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+
+        for (int i = 0; i < 1000000; i++) {
+            boolean oldVehicle = new Random().nextBoolean();
+            cmd.add(CommandFactory.newInsert(new Vehicle(
+                    now.minusYears(2).minusMonths(new Random().nextInt(12)),
+                    oldVehicle,
+                    now.minusYears(1).minusMonths(new Random().nextInt(12)),
+                    oldVehicle ? 0 : new Random().nextInt(5),
+                    oldVehicle ? new Random().nextInt(5) : 0,
+                    0,
+                    null
+            )));
+        }
+
+        // When
+        long duration = new VehicleStrategy2021Service().calculationTimeOfAmortizationDurationMultipleStateless(cmd);
 
         // Then
         System.out.println("Calculation time of amortization duration for 1.000.000 Vehicle in Stateless Session: " + duration);
@@ -115,7 +144,8 @@ public class CalculateAmortizationDurationTest {
                     now.minusYears(1).minusMonths(new Random().nextInt(12)),
                     oldVehicle ? 0 : new Random().nextInt(5),
                     oldVehicle ? new Random().nextInt(5) : 0,
-                    0
+                    0,
+                    null
             )));
         }
 
@@ -151,7 +181,8 @@ public class CalculateAmortizationDurationTest {
                     now.minusYears(1).minusMonths(new Random().nextInt(12)),
                     oldVehicle ? 0 : new Random().nextInt(5),
                     oldVehicle ? new Random().nextInt(5) : 0,
-                    0
+                    0,
+                    null
             ));
         }
 
@@ -161,7 +192,6 @@ public class CalculateAmortizationDurationTest {
         // Then
         System.out.println("Calculation time of amortization duration for 1.000.000 Vehicle in Java with given object: " + duration);
     }
-
 
     @Test
     public void should_get_calculation_time_of_amortization_duration_by_batch_of_million_vehicle_in_java_no_given() {

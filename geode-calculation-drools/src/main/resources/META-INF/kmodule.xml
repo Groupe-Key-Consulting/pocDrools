@@ -3,5 +3,10 @@
     <kbase name="GeodeDroolsCalcKbase" packages="rules">
         <ksession name="GeodeDroolsCalcSession" />
         <ksession name="GeodeDroolsCalcSessionStateless" type="stateless"/>
+        <ksession name="GeodeDroolsCalcSessionStateless0" type="stateless"/>
+        <ksession name="GeodeDroolsCalcSessionStateless1" type="stateless"/>
+        <ksession name="GeodeDroolsCalcSessionStateless2" type="stateless"/>
+        <ksession name="GeodeDroolsCalcSessionStateless3" type="stateless"/>
+        <ksession name="GeodeDroolsCalcSessionStateless4" type="stateless"/>
     </kbase>
 </kmodule>
