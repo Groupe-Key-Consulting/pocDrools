@@ -2,6 +2,7 @@ package com.kc.poc.drools.service;
 
 import com.kc.poc.drools.droolsConfig.DroolsConfigTwo;
 import com.kc.poc.drools.fact.Vehicle;
+import com.kc.poc.drools.util.DateUtil;
 import com.kc.poc.drools.util.MathUtil;
 import org.kie.api.command.Command;
 import org.kie.api.runtime.KieContainer;
@@ -130,4 +131,48 @@ public class VehicleStrategy2021Service {
         LocalDateTime endDate = LocalDateTime.now();
         return Duration.between(startDate, endDate).toMillis();
     }
+
+    public long calculationTimeOfAmortizationDurationJava_ImportedObjects(List<Vehicle> vehicles) {
+        LocalDateTime startDate = LocalDateTime.now();
+        for (Vehicle vehicle : vehicles) {
+            double amortizationDuration = 0;
+            if (vehicle.isNewVehicle() && vehicle.getNewVehiclesAmortizationPeriod() > 0) {
+                amortizationDuration = vehicle.getNewVehiclesAmortizationPeriod();
+            } else {
+                if (vehicle.getPurchaseDate() != null && vehicle.getStartDate() != null && vehicle.getOldVehiclesAmortizationPeriod() < 0) {
+                    if (vehicle.getPurchaseDate().plusMonths(vehicle.getOldVehiclesAmortizationPeriod() * 12).isAfter(vehicle.getStartDate())) {
+                        amortizationDuration = vehicle.getOldVehiclesAmortizationPeriod() - ((double) DateUtil.dateDifMonths(vehicle.getPurchaseDate(), vehicle.getStartDate()) / 12);
+                    }
+                }
+            }
+            if (amortizationDuration < 0) {
+                amortizationDuration = 0;
+            }
+        }
+        LocalDateTime endDate = LocalDateTime.now();
+        return Duration.between(startDate, endDate).toMillis();
+    }
+
+    public long calculationTimeOfAmortizationDurationJava_CreateObjectsHere() {
+        LocalDateTime startDate = LocalDateTime.now();
+        for (int i = 0; i < 1000000; i++) {
+            Vehicle vehicle = new Vehicle();
+            double amortizationDuration = 0;
+            if (vehicle.isNewVehicle() && vehicle.getNewVehiclesAmortizationPeriod() > 0) {
+                amortizationDuration = vehicle.getNewVehiclesAmortizationPeriod();
+            } else {
+                if (vehicle.getPurchaseDate() != null && vehicle.getStartDate() != null && vehicle.getOldVehiclesAmortizationPeriod() < 0) {
+                    if (vehicle.getPurchaseDate().plusMonths(vehicle.getOldVehiclesAmortizationPeriod() * 12).isAfter(vehicle.getStartDate())) {
+                        amortizationDuration = vehicle.getOldVehiclesAmortizationPeriod() - ((double) DateUtil.dateDifMonths(vehicle.getPurchaseDate(), vehicle.getStartDate()) / 12);
+                    }
+                }
+            }
+            if (amortizationDuration < 0) {
+                amortizationDuration = 0;
+            }
+        }
+        LocalDateTime endDate = LocalDateTime.now();
+        return Duration.between(startDate, endDate).toMillis();
+    }
+
 }
