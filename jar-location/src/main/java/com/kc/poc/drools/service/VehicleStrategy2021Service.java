@@ -141,6 +141,7 @@ public class VehicleStrategy2021Service implements IVehicleStrategy {
                         oldVehicle ? 0 : new Random().nextInt(5),
                         oldVehicle ? new Random().nextInt(5) : 0,
                         0,
+                        null,
                         null
                 ));
             }
@@ -225,5 +226,39 @@ public class VehicleStrategy2021Service implements IVehicleStrategy {
         double grantAmortizationRemainsStartYear = vehicle.calculateGrantAmortizationRemainsStartYear(grantType, year, grantAmortizationRemainsStartYearPreviousYear,
                 grantAmortizationPreviousYear, contractualNetValueStartYear).doubleValue();
         return calculateGrantAmortizationRemainsEndYearJava(vehicle, grantType, year, grantAmortizationRemainsStartYear, grantAmortization);
+    }
+
+    public BigDecimal calculateGrantAmortizationRemainsEndYearDrools(Vehicle vehicle, Vehicle.GrantType grantType, ContractualYear contractualYear, BigDecimal amortizationDuration, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
+        KieContainer kieContainer = new DroolsConfigTwo().kieContainerDrl();
+        KieSession kieSession = kieContainer.newKieSession();
+
+        try {
+            kieSession.insert(vehicle);
+            kieSession.insert(contractualYear);
+            kieSession.fireAllRules();
+        } finally {
+            kieSession.dispose();
+        }
+        return vehicle.getGrantAmortizationRemainsEndYear();
+    }
+
+    public long calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateful_ImportedObjects(List<Vehicle> vehicles, Vehicle.GrantType grantType, List<ContractualYear> contractualYears, BigDecimal amortizationDuration, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
+        KieContainer kieContainer = new DroolsConfigTwo().kieContainerDrl();
+        KieSession kieSession = kieContainer.newKieSession();
+
+        LocalDateTime startDate = LocalDateTime.now();
+        try {
+            for (ContractualYear contractualYear : contractualYears) {
+                kieSession.insert(contractualYear);
+            }
+            for (Vehicle vehicle : vehicles) {
+                kieSession.insert(vehicle);
+            }
+            kieSession.fireAllRules();
+        } finally {
+            kieSession.dispose();
+        }
+        LocalDateTime endDate = LocalDateTime.now();
+        return Duration.between(startDate, endDate).toMillis();
     }
 }

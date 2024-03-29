@@ -24,6 +24,7 @@ public class Vehicle {
     private Integer oldVehiclesAmortizationPeriod = 0;
     private double amortizationDuration = 0;
     private Map<Integer, VehicleYearData> yearData = new HashMap<>();
+    private BigDecimal GrantAmortizationRemainsEndYear = null;
 
     public boolean isNewVehicle() {
         return newVehicle != null && newVehicle;
@@ -50,6 +51,10 @@ public class Vehicle {
     public enum GrantType {
         STIF,
         OTHER
+    }
+
+    public GrantType getGrantType() {
+        return GrantType.STIF;
     }
 
 }

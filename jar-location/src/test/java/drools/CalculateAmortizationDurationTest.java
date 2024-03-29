@@ -93,6 +93,7 @@ public class CalculateAmortizationDurationTest {
                     oldVehicle ? 0 : new Random().nextInt(5),
                     oldVehicle ? new Random().nextInt(5) : 0,
                     0,
+                    null,
                     null
             )));
         }
@@ -119,6 +120,7 @@ public class CalculateAmortizationDurationTest {
                     oldVehicle ? 0 : new Random().nextInt(5),
                     oldVehicle ? new Random().nextInt(5) : 0,
                     0,
+                    null,
                     null
             )));
         }
@@ -145,6 +147,7 @@ public class CalculateAmortizationDurationTest {
                     oldVehicle ? 0 : new Random().nextInt(5),
                     oldVehicle ? new Random().nextInt(5) : 0,
                     0,
+                    null,
                     null
             )));
         }
@@ -182,6 +185,7 @@ public class CalculateAmortizationDurationTest {
                     oldVehicle ? 0 : new Random().nextInt(5),
                     oldVehicle ? new Random().nextInt(5) : 0,
                     0,
+                    null,
                     null
             ));
         }
