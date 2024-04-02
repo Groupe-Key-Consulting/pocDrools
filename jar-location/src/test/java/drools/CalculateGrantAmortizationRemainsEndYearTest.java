@@ -5,6 +5,8 @@ import com.kc.poc.drools.service.ContractualYear;
 import com.kc.poc.drools.service.VehicleStrategy2021Service;
 import com.kc.poc.drools.service.VehicleYearData;
 import org.junit.jupiter.api.Test;
+import org.kie.api.command.Command;
+import org.kie.internal.command.CommandFactory;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -105,6 +107,7 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
         // Then
         System.out.println("Calculation time of grant amortization remains end year for 1.000.000 Object in Java: " + Duration.between(startDate, endDate).toMillis());
     }
+
     @Test
     public void should_calculate_grant_amortization_remains_end_year_in_drools_when_() {
         // Given
@@ -221,6 +224,48 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
 
         // When
         long duration = new VehicleStrategy2021Service().calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateful_ImportedObjects(vehicles, STIF, contractualYears, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
+
+        // Then
+        System.out.println("Calculation time of grant amortization remains end year for 1.000.000 Object in Drools: " + duration);
+    }
+
+    @Test
+    public void should_get_calculation_time_of_grant_amortization_remains_end_year_by_batch_of_million_vehicle_in_drools_in_stateless_session_with_given() {
+        // Given
+        LocalDate date = LocalDate.now();
+        List<Command> cmd = new ArrayList<>();
+        Random random = new Random();
+
+        for (int i = 0; i < 1000000; i++) {
+            boolean oldVehicle = random.nextBoolean();
+
+            VehicleYearData vehicleYearData = new VehicleYearData();
+            vehicleYearData.setYear(2021);
+            vehicleYearData.setAllocationPercentage(BigDecimal.valueOf(random.nextDouble()));
+
+            cmd.add(CommandFactory.newInsert(new Vehicle(
+                    date.minusYears(2).minusMonths(random.nextInt(12)),
+                    oldVehicle,
+                    date.minusYears(1).minusMonths(random.nextInt(12)),
+                    oldVehicle ? 0 : random.nextInt(5),
+                    oldVehicle ? random.nextInt(5) : 0,
+                    0,
+                    Map.of(2021, vehicleYearData),
+                    null
+            )));
+
+            cmd.add(CommandFactory.newInsert(new ContractualYear(
+                    date.minusYears(2).minusMonths(random.nextInt(12)).getYear(),
+                    date.minusYears(1).minusMonths(random.nextInt(12)).getYear()
+            )));
+        }
+        BigDecimal amortizationDuration = BigDecimal.valueOf(random.nextDouble() * 1000);
+        BigDecimal contractualNetValueStartYear = BigDecimal.valueOf(random.nextDouble() * 1000);
+        BigDecimal grantAmortizationRemainsStartYearPreviousYear = BigDecimal.valueOf(random.nextDouble() * 1000);
+        BigDecimal grantAmortizationPreviousYear = BigDecimal.valueOf(random.nextDouble() * 1000);
+
+        // When
+        long duration = new VehicleStrategy2021Service().calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateless_ImportedObjects(cmd, STIF, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
 
         // Then
         System.out.println("Calculation time of grant amortization remains end year for 1.000.000 Object in Drools: " + duration);
