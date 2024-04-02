@@ -9,7 +9,6 @@ import org.kie.api.command.Command;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
-import org.kie.api.runtime.rule.FactHandle;
 import org.kie.internal.command.CommandFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,7 +18,6 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -251,12 +249,10 @@ public class VehicleStrategy2021Service implements IVehicleStrategy {
         LocalDateTime startDate = LocalDateTime.now();
         try {
             for (ContractualYear contractualYear : contractualYears) {
-                FactHandle contractFactHandle =  kieSession.insert(contractualYear);
-//                kieSession.retract(contractFactHandle);
+                kieSession.insert(contractualYear);
             }
             for (Vehicle vehicle : vehicles) {
-                FactHandle vehicleFactHandle = kieSession.insert(vehicle);
-//                kieSession.retract(vehicleFactHandle);
+                kieSession.insert(vehicle);
             }
             kieSession.fireAllRules();
         } finally {
