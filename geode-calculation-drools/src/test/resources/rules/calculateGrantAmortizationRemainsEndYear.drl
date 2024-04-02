@@ -1,0 +1,17 @@
+import com.kc.poc.drools.fact.Vehicle
+import com.kc.poc.drools.service.ContractualYear
+import java.math.BigDecimal
+import com.kc.poc.drools.util.MathUtil
+
+rule "Calculate Grant Amortization Remains End Year"
+    when
+        $vehicle : Vehicle()
+        $year : ContractualYear()
+    then
+        double $grantAmortization = $vehicle.calculateGrantAmortization($vehicle.getGrantType(), $year, BigDecimal.valueOf(5), BigDecimal.valueOf(1000.5)).doubleValue();
+        double $grantAmortizationRemainsStartYear = $vehicle.calculateGrantAmortizationRemainsStartYear($vehicle.getGrantType(), $year, BigDecimal.valueOf(500.0), BigDecimal.valueOf(300.0), BigDecimal.valueOf(1000.5)).doubleValue();
+
+        BigDecimal grantAmortizationRemainsEndYear = BigDecimal.valueOf(($grantAmortizationRemainsStartYear * MathUtil.asDoubleValue($vehicle.getAllocationPercentage($year.getNumber()))) - $grantAmortization);
+        $vehicle.setGrantAmortizationRemainsEndYear(grantAmortizationRemainsEndYear);
+        System.out.println("GRANT AMORTIZATION FIRED ");
+end

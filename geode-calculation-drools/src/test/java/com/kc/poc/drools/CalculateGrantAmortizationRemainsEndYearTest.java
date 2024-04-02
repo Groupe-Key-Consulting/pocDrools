@@ -1,8 +1,8 @@
-package drools;
+package com.kc.poc.drools;
 
 import com.kc.poc.drools.fact.Vehicle;
 import com.kc.poc.drools.service.ContractualYear;
-import com.kc.poc.drools.service.VehicleStrategy2021Service;
+import com.kc.poc.drools.strategies.VehicleStrategy2021;
 import com.kc.poc.drools.service.VehicleYearData;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
         vehicle.setOldVehiclesAmortizationPeriod(0);
         vehicle.setYearData(Map.of(2021, vehicleYearData));
 
-//        BigDecimal amortizationDuration = new VehicleStrategy2021Service().calculationTimeOfAmortizationDurationJava(vehicle);
+//        BigDecimal amortizationDuration = new VehicleStrategy2021().calculationTimeOfAmortizationDurationJava(vehicle);
         BigDecimal amortizationDuration = BigDecimal.valueOf(5);
         BigDecimal contractualNetValueStartYear = BigDecimal.valueOf(1000.5);
         BigDecimal grantAmortizationRemainsStartYearPreviousYear = BigDecimal.valueOf(500.0);
@@ -54,7 +54,7 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
                 grantAmortizationPreviousYear, contractualNetValueStartYear).doubleValue();
 
         // When
-        BigDecimal result = new VehicleStrategy2021Service().calculateGrantAmortizationRemainsEndYearJava(vehicle, STIF, contractualYear, grantAmortizationRemainsStartYear, grantAmortization);
+        BigDecimal result = new VehicleStrategy2021().calculateGrantAmortizationRemainsEndYearJava(vehicle, STIF, contractualYear, grantAmortizationRemainsStartYear, grantAmortization);
 
         // Then
         System.out.println("[Java Calculation] Grant Amortization: " + result);
@@ -101,7 +101,7 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
             double grantAmortizationRemainsStartYear = vehicle.calculateGrantAmortizationRemainsStartYear(STIF, contractualYear, grantAmortizationRemainsStartYearPreviousYear,
                     grantAmortizationPreviousYear, contractualNetValueStartYear).doubleValue();
 
-            BigDecimal result = new VehicleStrategy2021Service().calculateGrantAmortizationRemainsEndYearJava(vehicle, STIF, contractualYear, grantAmortizationRemainsStartYear, grantAmortization);
+            BigDecimal result = new VehicleStrategy2021().calculateGrantAmortizationRemainsEndYearJava(vehicle, STIF, contractualYear, grantAmortizationRemainsStartYear, grantAmortization);
         }
         LocalDateTime endDate = LocalDateTime.now();
 
@@ -130,13 +130,13 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
         vehicle.setOldVehiclesAmortizationPeriod(0);
         vehicle.setYearData(Map.of(2021, vehicleYearData));
 
-        BigDecimal amortizationDuration = new VehicleStrategy2021Service().calculationTimeOfAmortizationDurationJava(vehicle);
+        BigDecimal amortizationDuration = new VehicleStrategy2021().calculationTimeOfAmortizationDurationJava(vehicle);
         BigDecimal contractualNetValueStartYear = BigDecimal.valueOf(1000.5);
         BigDecimal grantAmortizationRemainsStartYearPreviousYear = BigDecimal.valueOf(500.0);
         BigDecimal grantAmortizationPreviousYear = BigDecimal.valueOf(300.0);
 
         // When
-        BigDecimal result = new VehicleStrategy2021Service().calculateGrantAmortizationRemainsEndYearDrools(vehicle, STIF, contractualYear, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
+        BigDecimal result = new VehicleStrategy2021().calculateGrantAmortizationRemainsEndYearDrools(vehicle, STIF, contractualYear, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
 
         // Then
         System.out.println("[Drools Calculation] Grant Amortization: " + result);
@@ -178,7 +178,7 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
 //            BigDecimal grantAmortizationRemainsStartYearPreviousYear = BigDecimal.valueOf(random.nextDouble() * 1000);
 //            BigDecimal grantAmortizationPreviousYear = BigDecimal.valueOf(random.nextDouble() * 1000);
 //
-//            BigDecimal result = new VehicleStrategy2021Service().calculateGrantAmortizationRemainsEndYearDrools(vehicle, STIF, contractualYear, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
+//            BigDecimal result = new VehicleStrategy2021().calculateGrantAmortizationRemainsEndYearDrools(vehicle, STIF, contractualYear, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
 //        }
 //        LocalDateTime endDate = LocalDateTime.now();
 //
@@ -225,7 +225,7 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
         BigDecimal grantAmortizationPreviousYear = BigDecimal.valueOf(random.nextDouble() * 1000);
 
         // When
-        long duration = new VehicleStrategy2021Service().calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateful_ImportedObjects(vehicles, STIF, contractualYears, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
+        long duration = new VehicleStrategy2021().calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateful_ImportedObjects(vehicles, STIF, contractualYears, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
 
         // Then
         System.out.println("Calculation time of grant amortization remains end year for 1.000.000 Object in Drools: " + duration);
@@ -268,7 +268,7 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
         BigDecimal grantAmortizationPreviousYear = BigDecimal.valueOf(random.nextDouble() * 1000);
 
         // When
-        long duration = new VehicleStrategy2021Service().calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateless_ImportedObjects(cmd, STIF, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
+        long duration = new VehicleStrategy2021().calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateless_ImportedObjects(cmd, STIF, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
 
         // Then
         System.out.println("Calculation time of grant amortization remains end year for 1.000.000 Object in Drools: " + duration);

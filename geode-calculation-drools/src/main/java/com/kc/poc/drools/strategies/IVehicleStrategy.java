@@ -1,6 +1,6 @@
 package com.kc.poc.drools.strategies;
 
-import com.kc.poc.drools.fact.ContractualYear;
+import com.kc.poc.drools.service.ContractualYear;
 import com.kc.poc.drools.fact.Vehicle;
 
 import java.math.BigDecimal;

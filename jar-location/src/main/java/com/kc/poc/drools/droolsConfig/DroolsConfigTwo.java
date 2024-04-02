@@ -16,7 +16,7 @@ public class DroolsConfigTwo {
     final static String V = "0.0.1-SNAPSHOT";
 
     // import drl
-     private static final String RULES_FILE = "rules/calculateGrantAmortizationRemainsEndYear.drl";
+//     private static final String RULES_FILE = "rules/calculateGrantAmortizationRemainsEndYear.drl";
 
     @Bean
     public KieContainer kieContainer() {
@@ -29,14 +29,14 @@ public class DroolsConfigTwo {
         return kieContainer;
     }
 
-    @Bean
-    public KieContainer kieContainerDrl() {
-        KieServices kieServices = KieServices.Factory.get();
-        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_FILE));
-        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
-        kieBuilder.buildAll();
-        KieModule kieModule = kieBuilder.getKieModule();
-        return kieServices.newKieContainer(kieModule.getReleaseId());
-    }
+//    @Bean
+//    public KieContainer kieContainerDrl() {
+//        KieServices kieServices = KieServices.Factory.get();
+//        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
+//        kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_FILE));
+//        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
+//        kieBuilder.buildAll();
+//        KieModule kieModule = kieBuilder.getKieModule();
+//        return kieServices.newKieContainer(kieModule.getReleaseId());
+//    }
 }

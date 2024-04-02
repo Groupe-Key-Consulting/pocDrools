@@ -1,57 +1,60 @@
 package com.kc.poc.drools.fact;
 
-import com.kc.poc.drools.model.ModelType;
+import com.kc.poc.drools.service.ContractualYear;
+import com.kc.poc.drools.service.VehicleYearData;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.poi.ss.formula.functions.T;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
-//@Entity
-//@Table(name = "T_VEHICLE")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Vehicle {
-
-    //    privat
     private LocalDate purchaseDate;
     private Boolean newVehicle;
     private LocalDate startDate;
     private int newVehiclesAmortizationPeriod = 0;
     private Integer oldVehiclesAmortizationPeriod = 0;
     private double amortizationDuration = 0;
+    private Map<Integer, VehicleYearData> yearData = new HashMap<>();
+    private BigDecimal GrantAmortizationRemainsEndYear = null;
 
-    // calculateGrantAmortizationRemainsEndYearJava
-    private BigDecimal allocationPercentage = BigDecimal.ZERO;
+    public boolean isNewVehicle() {
+        return newVehicle != null && newVehicle;
+    }
+
+    public BigDecimal getAllocationPercentage(int yearNumber) {
+        BigDecimal allocationPercentage = null;
+        if (yearData.get(yearNumber) != null) {
+            allocationPercentage = yearData.get(yearNumber).getAllocationPercentage();
+        }
+        return allocationPercentage;
+    }
+
+    public BigDecimal calculateGrantAmortization(GrantType grantType, ContractualYear year, BigDecimal amortizationDuration, BigDecimal contractualNetValueStartYear) {
+        // Différents de la methode original
+        return amortizationDuration.multiply(contractualNetValueStartYear);
+    }
+
+    public BigDecimal calculateGrantAmortizationRemainsStartYear(GrantType grantType, ContractualYear year, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
+        // Différents de la methode original
+        return grantAmortizationRemainsStartYearPreviousYear.subtract(grantAmortizationPreviousYear).add(contractualNetValueStartYear);
+    }
 
     public enum GrantType {
         STIF,
         OTHER
     }
 
-    private ModelType type;
-    private T strategy;
-
-    public boolean isNewVehicle() {
-        return newVehicle != null && newVehicle;
+    public GrantType getGrantType() {
+        return GrantType.STIF;
     }
 
-    /**
-     * Amortissement / reprise de la subvention avec affectation
-     */
-    public BigDecimal calculateGrantAmortization(GrantType grantType, ContractualYear year, BigDecimal amortizationDuration, BigDecimal contractualNetValueStartYear) {
-//        return this.getStrategy(this.getType().calculateGrantAmortization(this, grantType, year, amortizationDuration, contractualNetValueStartYear);
-        return null;
-    }
-
-    /**
-     * Reste à amortir / à reprendre de la subvention au début de l'année
-     */
-    public BigDecimal calculateGrantAmortizationRemainsStartYear(GrantType grantType, ContractualYear year,
-                                                                 BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
-//        return this.getStrategy(this.getProposition()).calculateGrantAmortizationRemainsStartYear(this, grantType, year, grantAmortizationRemainsStartYearPreviousYear,
-//                grantAmortizationPreviousYear, contractualNetValueStartYear);
-        return null;
-    }
 }

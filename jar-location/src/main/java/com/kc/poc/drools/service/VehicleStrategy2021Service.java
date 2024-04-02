@@ -229,8 +229,8 @@ public class VehicleStrategy2021Service implements IVehicleStrategy {
     }
 
     public BigDecimal calculateGrantAmortizationRemainsEndYearDrools(Vehicle vehicle, Vehicle.GrantType grantType, ContractualYear contractualYear, BigDecimal amortizationDuration, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
-        KieContainer kieContainer = new DroolsConfigTwo().kieContainerDrl();
-        KieSession kieSession = kieContainer.newKieSession();
+        KieContainer kieContainer = new DroolsConfigTwo().kieContainer();
+        KieSession kieSession = kieContainer.newKieSession("GeodeDroolsCalcSession");
 
         try {
             kieSession.insert(vehicle);
@@ -243,8 +243,7 @@ public class VehicleStrategy2021Service implements IVehicleStrategy {
     }
 
     public long calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateful_ImportedObjects(List<Vehicle> vehicles, Vehicle.GrantType grantType, List<ContractualYear> contractualYears, BigDecimal amortizationDuration, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
-        KieContainer kieContainer = new DroolsConfigTwo().kieContainerDrl();
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("GeodeDroolsCalcSession");
 
         LocalDateTime startDate = LocalDateTime.now();
         try {
@@ -263,12 +262,25 @@ public class VehicleStrategy2021Service implements IVehicleStrategy {
     }
 
     public long calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateless_ImportedObjects(List<Command> cmd, Vehicle.GrantType grantType, BigDecimal amortizationDuration, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
-        KieContainer kieContainer = new DroolsConfigTwo().kieContainerDrl();
-        StatelessKieSession kieSession = kieContainer.newStatelessKieSession();
+        KieContainer kieContainer = new DroolsConfigTwo().kieContainer();
+        KieSession kieSession = kieContainer.newKieSession("GeodeDroolsCalcSession");
 
         LocalDateTime startDate = LocalDateTime.now();
         kieSession.execute(CommandFactory.newBatchExecution(cmd));
         LocalDateTime endDate = LocalDateTime.now();
         return Duration.between(startDate, endDate).toMillis();
+    }
+
+    public BigDecimal statefulScanCalculateGrantAmortizationRemainsStartYearDrools(Vehicle vehicle, Vehicle.GrantType grantType, ContractualYear year, BigDecimal amortizationDuration, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear) {
+        KieSession kieSession = kieContainer.newKieSession("GeodeDroolsCalcSession");
+
+        try {
+            kieSession.insert(vehicle);
+            kieSession.insert(year);
+            kieSession.fireAllRules();
+        } finally {
+            kieSession.dispose();
+        }
+        return vehicle.getGrantAmortizationRemainsEndYear();
     }
 }
