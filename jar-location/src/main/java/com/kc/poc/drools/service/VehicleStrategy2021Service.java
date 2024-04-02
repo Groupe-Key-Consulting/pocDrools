@@ -9,6 +9,7 @@ import org.kie.api.command.Command;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.kie.internal.command.CommandFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,6 +19,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -249,15 +251,35 @@ public class VehicleStrategy2021Service implements IVehicleStrategy {
         LocalDateTime startDate = LocalDateTime.now();
         try {
             for (ContractualYear contractualYear : contractualYears) {
-                kieSession.insert(contractualYear);
+                FactHandle contractFactHandle =  kieSession.insert(contractualYear);
+//                kieSession.retract(contractFactHandle);
             }
             for (Vehicle vehicle : vehicles) {
-                kieSession.insert(vehicle);
+                FactHandle vehicleFactHandle = kieSession.insert(vehicle);
+//                kieSession.retract(vehicleFactHandle);
             }
             kieSession.fireAllRules();
         } finally {
             kieSession.dispose();
         }
+        LocalDateTime endDate = LocalDateTime.now();
+        return Duration.between(startDate, endDate).toMillis();
+    }
+
+    public long calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateless_ImportedObjects(List<Command> cmd, Vehicle.GrantType grantType, BigDecimal amortizationDuration, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
+        KieContainer kieContainer = new DroolsConfigTwo().kieContainerDrl();
+        StatelessKieSession kieSession = kieContainer.newStatelessKieSession();
+//        TrackingWorkingMemoryEventListener listener = new TrackingWorkingMemoryEventListener();
+//        kieSession.addEventListener(listener);
+
+//        List<Object> facts = new ArrayList<Object>();
+//        facts.add(vehicles);
+//        facts.add(contractualYears);
+
+        LocalDateTime startDate = LocalDateTime.now();
+//        kieSession.execute(vehicles);
+//        kieSession.execute(contractualYears);
+        kieSession.execute(CommandFactory.newBatchExecution(cmd));
         LocalDateTime endDate = LocalDateTime.now();
         return Duration.between(startDate, endDate).toMillis();
     }

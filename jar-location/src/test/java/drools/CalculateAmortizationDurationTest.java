@@ -69,7 +69,7 @@ public class CalculateAmortizationDurationTest {
         BigDecimal result = new VehicleStrategy2021Service().calculateAmortizationDurationDrools(vehicle).setScale(4, RoundingMode.HALF_UP);
         System.out.println(result);
         // Then
-        // 1.0833 = 2 - (13/12)
+        // 1.0833 = 2 - (11/12)
         assertEquals(BigDecimal.valueOf(1.0833), result);
     }
 
