@@ -16,19 +16,4 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.drools/drools-model-compiler &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.drools</groupId>-->
-<!--            <artifactId>drools-model-compiler</artifactId>-->
-<!--            <version>9.44.0.Final</version>-->
-<!--        </dependency>-->
-
-
-    </dependencies>
-
 </project>

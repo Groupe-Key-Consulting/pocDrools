@@ -1,6 +1,10 @@
 # pocDrools
 Poc to test drools in different ways
 
+## Création KieContainer 
+
+
+
 ## Stateful vs Stateless
 - **Stateful**: Les règles sont évaluées en fonction des faits insérés dans la session. Les faits sont conservés dans la session jusqu'à ce que la session soit détruite.
 - **Stateless**: Les faits sont insérés dans la session, les règles sont évaluées et les faits sont retirés de la session. La session est détruite après l'évaluation des règles.
@@ -80,3 +84,22 @@ Le moteur de décision prend en charge les modes d'exécution des règles suivan
   - pas de versioning
   - pas de debug possible
   - devient rapidement illisible avec beaucoup de règles.
+
+## Logging
+
+On peut activer le logging des règles pour voir les règles qui sont déclenchées et les faits qui sont insérés dans la session.
+
+Exemple dans module decision-table-drools-geode: VehicleStrategy2021
+```java
+        KieSession kieSession = new DroolsConfig().kieContainer().newKieSession();
+        kieSession.addEventListener(new DefaultAgendaEventListener() {
+            public void afterMatchFired(AfterMatchFiredEvent event) {
+                super.afterMatchFired( event );
+                System.out.println( event );
+            }
+            public void beforeMatchFired(BeforeMatchFiredEvent event) {
+                super.beforeMatchFired( event );
+                System.out.println( event );
+            }
+        });
+```

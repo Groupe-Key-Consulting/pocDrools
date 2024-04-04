@@ -249,6 +249,7 @@ public class VehicleStrategy2021 implements IVehicleStrategy {
     }
 
     public long calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateful_ImportedObjects(List<Vehicle> vehicles, Vehicle.GrantType grantType, List<ContractualYear> contractualYears, BigDecimal amortizationDuration, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
+        KieContainer kieContainer = new DroolsConfig().kieContainer();
         KieSession kieSession = kieContainer.newKieSession("GeodeDroolsCalcSession");
 
         LocalDateTime startDate = LocalDateTime.now();
@@ -268,6 +269,7 @@ public class VehicleStrategy2021 implements IVehicleStrategy {
     }
 
     public long calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateless_ImportedObjects(List<Command> cmd, Vehicle.GrantType grantType, BigDecimal amortizationDuration, BigDecimal grantAmortizationRemainsStartYearPreviousYear, BigDecimal grantAmortizationPreviousYear, BigDecimal contractualNetValueStartYear) {
+        KieContainer kieContainer = new DroolsConfig().kieContainer();
         StatelessKieSession kieSession = kieContainer.newStatelessKieSession("GeodeDroolsCalcSessionStateless");
 
         LocalDateTime startDate = LocalDateTime.now();

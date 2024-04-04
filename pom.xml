@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!--
+    The parent POM is provided by Spring Boot and provides default configurations for the project.
+    -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <!--
+    The project coordinates, it includes the group ID, artifact ID, and version.
+    -->
     <groupId>com.kc.poc.drools</groupId>
     <artifactId>drools</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>drools</name>
     <description>Demo project for tests case drools</description>
 
+    <!--
+    The packaging type of the project. In this case, it's a POM which means it's a parent project with modules.
+    -->
     <packaging>pom</packaging>
 
+    <!--
+    The modules of the project. Each module represents a sub-project.
+    -->
     <modules>
         <module>exec-model-ruleunit</module>
         <module>drools-engine</module>
         <module>geode-calculation-drools</module>
-<!--        <module>decision-table-drools-geode</module>-->
-        <module>jar-location</module>
+        <module>decision-table-drools-geode</module>
+        <module>drools-kie-scanner</module>
     </modules>
 
+    <!--
+    The properties section is used to define common properties that can be referenced throughout the POM.
+    -->
     <properties>
         <!-- Java version -->
         <java.version>21</java.version>
@@ -44,104 +60,89 @@
         <start-class>com.kc.poc.drools.DroolsApplication</start-class>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-
     </properties>
+
+    <!--
+    The dependencies section is used to define all the dependencies required by the project.
+    -->
     <dependencies>
+        <!-- Spring Boot Starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
+        <!-- Spring Boot Starter Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- drools dependencies -->
-        <dependency>
+        <!-- Drools dependencies -->
+
+        <dependency> <!-- Fundamental components required to define, compile, and execute business rules. -->
             <groupId>org.drools</groupId>
             <artifactId>drools-core</artifactId>
             <version>${drools.version}</version>
         </dependency>
-        <dependency>
+        <dependency> <!-- Enables the rule engine to understand and execute your business rules. -->
             <groupId>org.drools</groupId>
             <artifactId>drools-compiler</artifactId>
             <version>${drools.version}</version>
         </dependency>
-        <dependency>
+        <dependency> <!-- Provides necessary to parse decision tables and convert them into executable rule definitions. -->
             <groupId>org.drools</groupId>
             <artifactId>drools-decisiontables</artifactId>
             <version>${drools.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-mvel</artifactId>
-            <version>${drools.version}</version>
-        </dependency>
-        <dependency>
+        <dependency> <!-- Processes and evaluates the business rules against data (facts). -->
             <groupId>org.drools</groupId>
             <artifactId>drools-engine</artifactId>
             <version>${drools.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-ruleunits-engine</artifactId>
-            <version>${drools.version}</version>
-        </dependency>
-        <dependency> <!-- when not using Rule Unit and using `kmodule.xml` for defining a rule base -->
+        <dependency> <!-- When using `kmodule.xml` for defining a rule bases -->
             <groupId>org.drools</groupId>
             <artifactId>drools-xml-support</artifactId>
             <version>${drools.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.kie/kie-api -->
-        <dependency>
+        <!-- KIE API -->
+        <dependency> <!-- Provides the functionality to dynamically compile and load rules from various resources (repo git, external module, ...)-->
             <groupId>org.kie</groupId>
             <artifactId>kie-ci</artifactId>
             <version>9.44.0.Final</version>
         </dependency>
-        <dependency>
+        <!-- Spring Boot Starter Web -->
+        <dependency> <!-- Provides the functionality to build web applications (RESTful)  -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- Spring Boot DevTools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-
-        <!-- spring drools -->
-
-        <!-- https://mvnrepository.com/artifact/org.kie/kie-spring -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.kie</groupId>-->
-        <!--            <artifactId>kie-spring</artifactId>-->
-        <!--            <version>7.74.1.Final</version>-->
-        <!--        </dependency>-->
-
-        <!-- utils -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+        <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback-version}</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
+    <!--
+    The build section is used to define project-specific build configurations.
+    -->
     <build>
         <plugins>
+            <!-- Maven Resources Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -158,38 +159,21 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/resources</directory>
-                                    <filtering>true</filtering>
+                                    <filtering>false</filtering>
                                 </resource>
                             </resources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <mainClass>${start-class}</mainClass>-->
-<!--                    &lt;!&ndash;-->
-<!--                    Enable the line below to have remote debugging of your application on port 5005-->
-<!--                    <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>-->
-<!--                    &ndash;&gt;-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-
-            <!-- The KIE plugin for Maven ensures that artifact resources are validated and pre-compiled,
-            it is recommended that this is used at all times.
-            To use the plugin simply add it to the build section of the Maven pom.xml
-            and activate it by using packaging kjar. -->
-
+            <!-- KIE Maven Plugin -->
             <plugin>
-                <groupId>org.kie</groupId>
+                <groupId>org.kie</groupId> <!-- Build and manage projects that use Drools. Ensures that artifact resources are validated and pre-compiled -->
                 <artifactId>kie-maven-plugin</artifactId>
                 <version>${drools.version}</version>
                 <extensions>true</extensions>
             </plugin>
-
+            <!-- Spring Boot Maven Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -206,10 +190,6 @@
                 </executions>
                 <configuration>
                     <mainClass>${start-class}</mainClass>
-                    <!--
-                    Enable the line below to have remote debugging of your application on port 5005
-                    <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
-                    -->
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -218,34 +198,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-resources-plugin</artifactId>-->
-<!--                <version>3.2.0</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>copy-resources</id>-->
-<!--                        <phase>validate</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>copy-resources</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>-->
-<!--                            <resources>-->
-<!--                                <resource>-->
-<!--                                    <directory>src/main/resources</directory>-->
-<!--                                    <filtering>true</filtering>-->
-<!--                                </resource>-->
-<!--                            </resources>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-
-
         </plugins>
-
-
     </build>
-
 </project>
