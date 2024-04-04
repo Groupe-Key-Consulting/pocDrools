@@ -61,8 +61,9 @@ public class DroolsConfig {
                 .setDefault( true )
                 .setEqualsBehavior( EqualityBehaviorOption.EQUALITY )
                 .setEventProcessingMode( EventProcessingOption.STREAM );
+        // no packages imported means KieBase is using the default package
 //                .addPackage("com.kc.poc.drools.model");
-        // no packages imported means import everything
+
 
 
         //add a new ksession to the kbase
@@ -83,9 +84,6 @@ public class DroolsConfig {
         kfs.write(kieServices.getResources().newClassPathResource(RULES_FILE_AGENDA));
         kfs.write(kieServices.getResources().newClassPathResource(RULES_FILE_ALL));
         kfs.write(kieServices.getResources().newClassPathResource(RULES_FILE_FIRST));
-        //Adding Kie artifacts to a KieFileSystem
-
-        //kfs.write("src/main/resources/rules/test.drl", ResourceFactory.newClassPathResource(RULES_PATH));
 
 
         /**
