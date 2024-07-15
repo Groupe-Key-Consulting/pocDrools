@@ -1,0 +1,34 @@
+import com.kc.poc.drools.fact.Vehicle;
+import com.kc.poc.drools.util.DateUtil;
+import java.time.LocalDate;
+
+rule "nouveau vehicule et periode d'amortissement > 0"
+    when
+        $vehicle : Vehicle(isNewVehicle() && getNewVehiclesAmortizationPeriod() > 0)
+    then
+        modify($vehicle){
+            setAmortizationDuration($vehicle.getNewVehiclesAmortizationPeriod())
+        }
+//        System.out.println("Amortization duration is : " + $vehicle.getAmortizationDuration() + " years");
+end
+
+rule "ancien vehicule et date d'achat plus durée d'amortissement est supérieure a la date de début du vehicule"
+    when
+      $vehicle: Vehicle(getPurchaseDate() != null && getStartDate() != null && oldVehiclesAmortizationPeriod != null && purchaseDate.plusMonths(getOldVehiclesAmortizationPeriod() * 12) > getStartDate())
+    then
+
+        modify($vehicle){
+            setAmortizationDuration($vehicle.getOldVehiclesAmortizationPeriod() - (double)DateUtil.dateDifMonths($vehicle.getPurchaseDate(), $vehicle.getStartDate()) / 12)
+        }
+
+//        System.out.println("Amortization duration: " + $vehicle.getAmortizationDuration() + " years");
+
+end
+
+rule "si après les 2 règles au dessus l'amortizationDuration <= 0"
+    when
+        $vehicle : Vehicle( getAmortizationDuration() < 0)
+    then
+        $vehicle.setAmortizationDuration(0);
+//        System.out.println("Amortization duration is less than " + $vehicle.getAmortizationDuration());
+end

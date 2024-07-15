@@ -1,21 +1,24 @@
 package com.kc.poc.drools.service;
 
-import com.kc.poc.drools.config.TaxiFareConfiguration;
 import com.kc.poc.drools.model.Fare;
 import com.kc.poc.drools.model.TaxiRide;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TaxiFareCalculatorService {
 
-    @Autowired
-    private KieContainer kieContainer;
-    KieSession kieSession = new TaxiFareConfiguration().kieContainer().newKieSession();
+
+    private final KieContainer kieContainer;
+
+    public TaxiFareCalculatorService(KieContainer kieContainer) {
+        this.kieContainer = kieContainer;
+    }
 
     public Long calculateFare(TaxiRide taxiRide, Fare fare) {
+        KieSession kieSession = kieContainer.getKieBase().newKieSession();
+
         try {
             kieSession.insert(taxiRide);
             kieSession.setGlobal("fare", fare);
