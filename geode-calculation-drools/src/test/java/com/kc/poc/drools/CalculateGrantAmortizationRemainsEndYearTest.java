@@ -6,6 +6,8 @@ import com.kc.poc.drools.strategies.VehicleStrategy2021;
 import com.kc.poc.drools.service.VehicleYearData;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.kie.api.command.Command;
 import org.kie.internal.command.CommandFactory;
 
@@ -61,14 +63,17 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
     }
 
 
-    @Test
-    public void should_get_calculation_time_of_grant_amortization_remains_end_year_by_batch_of_million_vehicle_in_java() {
+    @ParameterizedTest
+    @CsvSource({"1",
+            "2",
+    "10"})
+    public void should_get_calculation_time_of_grant_amortization_remains_end_year_by_batch_of_million_vehicle_in_java(int numberOfVehicle) {
         // Given
         LocalDate date = LocalDate.now();
         List<Vehicle> vehicles = new ArrayList<>();
         Random random = new Random();
 
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < numberOfVehicle; i++) {
             boolean oldVehicle = random.nextBoolean();
 
             VehicleYearData vehicleYearData = new VehicleYearData();
@@ -106,7 +111,7 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
         LocalDateTime endDate = LocalDateTime.now();
 
         // Then
-        System.out.println("Calculation time of grant amortization remains end year for 1.000.000 Object in Java: " + Duration.between(startDate, endDate).toMillis());
+        System.out.println("Calculation time of grant amortization remains end year for "+ numberOfVehicle + " Object in Java: " + Duration.between(startDate, endDate).toMillis());
     }
 
     @Test
@@ -142,16 +147,18 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
         System.out.println("[Drools Calculation] Grant Amortization: " + result);
     }
 
-    @Test
-//    @Disabled
-    public void should_get_calculation_time_of_grant_amortization_remains_end_year_by_batch_of_million_vehicle_in_drools_in_stateful_session_with_given() {
+    @ParameterizedTest
+    @CsvSource({"1",
+            "2",
+            "10"})
+    public void should_get_calculation_time_of_grant_amortization_remains_end_year_by_batch_of_million_vehicle_in_drools_in_stateful_session_with_given(int numberOfVehicle) {
         // Given
         LocalDate date = LocalDate.now();
         List<Vehicle> vehicles = new ArrayList<>();
         List<ContractualYear> contractualYears = new ArrayList<>();
         Random random = new Random();
 
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < numberOfVehicle; i++) {
             boolean oldVehicle = random.nextBoolean();
 
             VehicleYearData vehicleYearData = new VehicleYearData();
@@ -184,7 +191,7 @@ public class CalculateGrantAmortizationRemainsEndYearTest {
         long duration = new VehicleStrategy2021().calculationTimeOfGrantAmortizationRemainsEndYearDroolsStateful_ImportedObjects(vehicles, STIF, contractualYears, amortizationDuration, grantAmortizationRemainsStartYearPreviousYear, grantAmortizationPreviousYear, contractualNetValueStartYear);
 
         // Then
-        System.out.println("Calculation time of grant amortization remains end year for 1.000.000 Object in Drools: " + duration);
+        System.out.println("Calculation time of grant amortization remains end year for " + numberOfVehicle +" Object in Drools: " + duration);
     }
 
     @Test
